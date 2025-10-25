@@ -11,6 +11,7 @@ A responsive, fast, and minimal portfolio to showcase projects, certificates, sk
 - **Contact links** and **Get in touch** form.
 - **EmailJS integration** for direct form-to-email sending with graceful fallback.
 - **Dark mode** toggle with `localStorage`.
+- **Background**: Vite-like ambient background (radial grid fade, conic gradient blobs, soft noise) with reduced‑motion support.
 
 ## Tech Stack
 - HTML, CSS (Tailwind via CDN), vanilla JavaScript
@@ -110,8 +111,29 @@ The script dynamically loads the EmailJS SDK and sends the form.
 - **Projects/Certificates**: Add new cards and update links/thumbnails.
 - **Contact**: You can change the “Email” button to link to the form (`#get-in-touch`) instead of `mailto:` if desired.
 
+### Background Effects
+The ambient background is composed of three fixed layers inserted at the top of `<body>` in `index.html`:
+
+```html
+<div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-conic" aria-hidden="true"></div>
+<div class="bg-noise" aria-hidden="true"></div>
+```
+
+The styles live in `styles.css`:
+- `.bg-grid`: subtle radial grid masked to fade toward edges
+- `.bg-conic`: two large conic‑gradient blobs rotating slowly
+- `.bg-noise`: very light noise overlay for texture
+
+Tuning tips:
+- Reduce motion: already honored via `@media (prefers-reduced-motion: reduce)` (stops rotation).
+- Softer look: lower `.bg-conic` opacity (e.g., 0.12–0.15) or increase blur.
+- More subtle: comment out `.bg-grid` or `.bg-noise` layers.
+- Dark mode: adjust colors/opacities with `@media (prefers-color-scheme: dark)` if desired.
+
 ## Accessibility & SEO
 - Semantic headings and accessible color contrast.
+- Motion preferences are respected (reduced‑motion disables background rotation).
 - Add your own Open Graph meta tags for richer link previews.
 
 ## Troubleshooting
