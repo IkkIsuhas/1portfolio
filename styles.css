@@ -7,7 +7,7 @@
   height: 100%;
   z-index: -100;
   pointer-events: none;
-  background: linear-gradient(to bottom, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
+  background: transparent;
 }
 
 /* Vite-like global background layers */
@@ -219,3 +219,53 @@ section[id] { scroll-margin-top: 90px; }
 /* Neumorphism surface */
 .neu-surface { box-shadow: inset 6px 6px 14px rgba(2,6,23,.18), inset -6px -6px 14px rgba(255,255,255,.08); }
 .dark .neu-surface { box-shadow: inset 8px 8px 18px rgba(0,0,0,.35), inset -8px -8px 18px rgba(255,255,255,.03); }
+
+/* Ripple Effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.3);
+  transform: scale(0);
+  animation: ripple-animation 0.6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Shake Animation for Form Validation */
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+  20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+
+/* Skill Progress Bar Animation */
+.skill-progress {
+  transition: width 1.5s ease-out;
+  position: relative;
+}
+
+.skill-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

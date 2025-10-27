@@ -14,6 +14,11 @@
   // Shooting stars
   const shootingStars = [];
   
+  // Check if dark mode is active
+  function isDarkMode() {
+    return document.documentElement.classList.contains('dark');
+  }
+  
   class Star {
     constructor() {
       this.x = Math.random() * width;
@@ -44,7 +49,9 @@
     }
     
     draw() {
-      ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+      // Use white stars in dark mode, dark stars in light mode
+      const color = isDarkMode() ? '255, 255, 255' : '50, 50, 80';
+      ctx.fillStyle = `rgba(${color}, ${this.opacity})`;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
@@ -78,14 +85,16 @@
     }
     
     draw() {
+      // Use white shooting stars in dark mode, dark in light mode
+      const color = isDarkMode() ? '255, 255, 255' : '50, 50, 80';
       const gradient = ctx.createLinearGradient(
         this.x,
         this.y,
         this.x - Math.cos(this.angle) * this.length,
         this.y - Math.sin(this.angle) * this.length
       );
-      gradient.addColorStop(0, `rgba(255, 255, 255, ${this.opacity})`);
-      gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+      gradient.addColorStop(0, `rgba(${color}, ${this.opacity})`);
+      gradient.addColorStop(1, `rgba(${color}, 0)`);
       
       ctx.strokeStyle = gradient;
       ctx.lineWidth = this.size;
@@ -110,9 +119,8 @@
   }
   
   function animate() {
-    // Clear with semi-transparent fill for trail effect
-    ctx.fillStyle = 'rgba(10, 14, 39, 0.1)';
-    ctx.fillRect(0, 0, width, height);
+    // Clear canvas completely for transparent background
+    ctx.clearRect(0, 0, width, height);
     
     // Update and draw stars
     stars.forEach(star => {
@@ -318,27 +326,8 @@ function showFormSuccess(anchorEl) {
     (anchorEl?.parentElement || form)?.appendChild(badge);
     setTimeout(() => badge.remove(), 3000);
 
-    // confetti burst around button
-    const rect = (anchorEl || form).getBoundingClientRect();
-    const container = document.createElement('div');
-    container.style.position = 'fixed';
-    container.style.left = `${rect.left + rect.width/2}px`;
-    container.style.top = `${rect.top}px`;
-    container.style.pointerEvents = 'none';
-    container.style.transform = 'translate(-50%, -20%)';
-    document.body.appendChild(container);
-
-    const colors = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#3b82f6'];
-    for (let i = 0; i < 16; i++) {
-      const piece = document.createElement('div');
-      piece.className = 'confetti-piece';
-      piece.style.background = colors[i % colors.length];
-      piece.style.left = `${(Math.random() * 60 - 30)}px`;
-      piece.style.setProperty('--cx', `${(Math.random() * 60 - 30)}px`);
-      piece.style.animationDelay = `${Math.random() * 0.2}s`;
-      container.appendChild(piece);
-    }
-    setTimeout(() => { container.remove(); }, 1000);
+    // Trigger full-screen confetti animation
+    createConfetti();
   } catch {}
 }
 
@@ -718,4 +707,262 @@ window.hideProjectsSpinner = function hideProjectsSpinner() {
     });
   }, { threshold: 0.5 });
   items.forEach(el => io.observe(el));
+})();
+
+// Loading Screen
+(function initLoadingScreen() {
+  const loadingScreen = document.getElementById('loadingScreen');
+  if (!loadingScreen) return;
+  
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+      }, 500);
+    }, 800);
+  });
+})();
+
+// Scroll Progress Bar
+(function initScrollProgress() {
+  const progressBar = document.getElementById('scrollProgress');
+  if (!progressBar) return;
+  
+  function updateProgress() {
+    const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (window.scrollY / windowHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+  }
+  
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+})();
+
+// Scroll to Top Button
+(function initScrollToTop() {
+  const scrollBtn = document.getElementById('scrollToTopBtn');
+  const backToTopBtn = document.getElementById('backToTop');
+  if (!scrollBtn) return;
+  
+  function toggleButton() {
+    if (window.scrollY > 300) {
+      scrollBtn.classList.remove('opacity-0', 'pointer-events-none');
+      scrollBtn.classList.add('opacity-100', 'pointer-events-auto');
+    } else {
+      scrollBtn.classList.add('opacity-0', 'pointer-events-none');
+      scrollBtn.classList.remove('opacity-100', 'pointer-events-auto');
+    }
+  }
+  
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+  
+  window.addEventListener('scroll', toggleButton, { passive: true });
+  scrollBtn.addEventListener('click', scrollToTop);
+  if (backToTopBtn) backToTopBtn.addEventListener('click', scrollToTop);
+  toggleButton();
+})();
+
+// Button Hover Particle Effect
+(function initButtonParticles() {
+  const buttons = document.querySelectorAll('a[href="#projects"], #sendBtn');
+  
+  buttons.forEach(button => {
+    button.addEventListener('mouseenter', function(e) {
+      const rect = this.getBoundingClientRect();
+      const particles = 8;
+      
+      for (let i = 0; i < particles; i++) {
+        const particle = document.createElement('div');
+        particle.style.position = 'fixed';
+        particle.style.left = rect.left + rect.width / 2 + 'px';
+        particle.style.top = rect.top + rect.height / 2 + 'px';
+        particle.style.width = '4px';
+        particle.style.height = '4px';
+        particle.style.borderRadius = '50%';
+        particle.style.background = 'rgba(99, 102, 241, 0.6)';
+        particle.style.pointerEvents = 'none';
+        particle.style.zIndex = '9999';
+        
+        const angle = (Math.PI * 2 * i) / particles;
+        const velocity = 2;
+        const vx = Math.cos(angle) * velocity;
+        const vy = Math.sin(angle) * velocity;
+        
+        document.body.appendChild(particle);
+        
+        let x = 0, y = 0, opacity = 1;
+        function animate() {
+          x += vx;
+          y += vy;
+          opacity -= 0.02;
+          
+          particle.style.transform = `translate(${x * 10}px, ${y * 10}px)`;
+          particle.style.opacity = opacity;
+          
+          if (opacity > 0) {
+            requestAnimationFrame(animate);
+          } else {
+            particle.remove();
+          }
+        }
+        animate();
+      }
+    });
+  });
+})();
+
+// Animated Skill Progress Bars
+(function initSkillProgress() {
+  const progressBars = document.querySelectorAll('.skill-progress');
+  if (progressBars.length === 0) return;
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bar = entry.target;
+        const progress = bar.getAttribute('data-progress');
+        
+        setTimeout(() => {
+          bar.style.transition = 'width 1.5s ease-out';
+          bar.style.width = progress + '%';
+        }, 200);
+        
+        observer.unobserve(bar);
+      }
+    });
+  }, { threshold: 0.5 });
+  
+  progressBars.forEach(bar => observer.observe(bar));
+})();
+
+// Ripple Effect on Card Clicks
+(function initRippleEffect() {
+  const rippleContainers = document.querySelectorAll('.ripple-container, article');
+  
+  rippleContainers.forEach(container => {
+    container.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+      
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      ripple.classList.add('ripple');
+      
+      this.style.position = 'relative';
+      this.style.overflow = 'hidden';
+      this.appendChild(ripple);
+      
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+})();
+
+// Form Validation with Shake Effect
+(function initFormValidation() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+  
+  const inputs = form.querySelectorAll('input[required], textarea[required]');
+  
+  inputs.forEach(input => {
+    input.addEventListener('invalid', function(e) {
+      e.preventDefault();
+      this.classList.add('shake', 'border-red-500');
+      
+      setTimeout(() => {
+        this.classList.remove('shake');
+      }, 500);
+      
+      setTimeout(() => {
+        this.classList.remove('border-red-500');
+      }, 2000);
+    });
+    
+    input.addEventListener('input', function() {
+      if (this.validity.valid) {
+        this.classList.remove('border-red-500');
+      }
+    });
+  });
+})();
+
+// Confetti Animation on Form Success
+function createConfetti() {
+  const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'];
+  const confettiCount = 50;
+  
+  for (let i = 0; i < confettiCount; i++) {
+    const confetti = document.createElement('div');
+    confetti.style.position = 'fixed';
+    confetti.style.left = Math.random() * 100 + '%';
+    confetti.style.top = '-10px';
+    confetti.style.width = Math.random() * 10 + 5 + 'px';
+    confetti.style.height = Math.random() * 10 + 5 + 'px';
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    confetti.style.opacity = Math.random();
+    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+    confetti.style.pointerEvents = 'none';
+    confetti.style.zIndex = '9999';
+    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    
+    document.body.appendChild(confetti);
+    
+    const duration = Math.random() * 3 + 2;
+    const xMovement = (Math.random() - 0.5) * 200;
+    
+    confetti.animate([
+      { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+      { transform: `translate(${xMovement}px, ${window.innerHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+    ], {
+      duration: duration * 1000,
+      easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+    }).onfinish = () => confetti.remove();
+  }
+}
+
+// Typing Effect for Tagline in About Section using Typed.js
+(function initTaglineTyping() {
+  const taglineElement = document.getElementById('typedTagline');
+  if (!taglineElement || typeof Typed === 'undefined') return;
+  
+  // Wait for page to be fully loaded
+  const initTyped = () => {
+    try {
+      new Typed('#typedTagline', {
+        strings: [
+          "Building intelligent solutions with code",
+          "Transforming data into insights",
+          "Creating scalable ML applications",
+          "Passionate about AI and innovation"
+        ],
+        typeSpeed: 60,
+        backSpeed: 40,
+        backDelay: 2000,
+        startDelay: 500,
+        loop: true,
+        showCursor: false
+      });
+    } catch (e) {
+      console.log('Typed.js not loaded yet for tagline');
+    }
+  };
+  
+  // Initialize after a delay to ensure Typed.js is loaded
+  if (document.readyState === 'complete') {
+    setTimeout(initTyped, 1500);
+  } else {
+    window.addEventListener('load', () => {
+      setTimeout(initTyped, 1500);
+    });
+  }
 })();
