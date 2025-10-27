@@ -1,3 +1,143 @@
+// Galaxy Background Animation
+(function initGalaxyBackground() {
+  const canvas = document.getElementById('galaxyCanvas');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+  
+  // Star particles
+  const stars = [];
+  const numStars = 200;
+  
+  // Shooting stars
+  const shootingStars = [];
+  
+  class Star {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.size = Math.random() * 2;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = (Math.random() - 0.5) * 0.3;
+      this.opacity = Math.random();
+      this.twinkleSpeed = Math.random() * 0.02 + 0.01;
+      this.twinkleDirection = Math.random() > 0.5 ? 1 : -1;
+    }
+    
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      
+      // Wrap around screen
+      if (this.x < 0) this.x = width;
+      if (this.x > width) this.x = 0;
+      if (this.y < 0) this.y = height;
+      if (this.y > height) this.y = 0;
+      
+      // Twinkling effect
+      this.opacity += this.twinkleSpeed * this.twinkleDirection;
+      if (this.opacity <= 0.1 || this.opacity >= 1) {
+        this.twinkleDirection *= -1;
+      }
+    }
+    
+    draw() {
+      ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  
+  class ShootingStar {
+    constructor() {
+      this.reset();
+    }
+    
+    reset() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height * 0.5; // Top half of screen
+      this.length = Math.random() * 80 + 40;
+      this.speed = Math.random() * 8 + 6;
+      this.size = Math.random() * 1.5 + 0.5;
+      this.opacity = 1;
+      this.angle = Math.PI / 4; // 45 degrees
+    }
+    
+    update() {
+      this.x += Math.cos(this.angle) * this.speed;
+      this.y += Math.sin(this.angle) * this.speed;
+      this.opacity -= 0.015;
+      
+      // Reset when off screen or faded
+      if (this.opacity <= 0 || this.x > width || this.y > height) {
+        this.reset();
+      }
+    }
+    
+    draw() {
+      const gradient = ctx.createLinearGradient(
+        this.x,
+        this.y,
+        this.x - Math.cos(this.angle) * this.length,
+        this.y - Math.sin(this.angle) * this.length
+      );
+      gradient.addColorStop(0, `rgba(255, 255, 255, ${this.opacity})`);
+      gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
+      
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = this.size;
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.lineTo(
+        this.x - Math.cos(this.angle) * this.length,
+        this.y - Math.sin(this.angle) * this.length
+      );
+      ctx.stroke();
+    }
+  }
+  
+  // Initialize stars
+  for (let i = 0; i < numStars; i++) {
+    stars.push(new Star());
+  }
+  
+  // Initialize shooting stars (fewer of them)
+  for (let i = 0; i < 3; i++) {
+    shootingStars.push(new ShootingStar());
+  }
+  
+  function animate() {
+    // Clear with semi-transparent fill for trail effect
+    ctx.fillStyle = 'rgba(10, 14, 39, 0.1)';
+    ctx.fillRect(0, 0, width, height);
+    
+    // Update and draw stars
+    stars.forEach(star => {
+      star.update();
+      star.draw();
+    });
+    
+    // Update and draw shooting stars
+    shootingStars.forEach(shootingStar => {
+      shootingStar.update();
+      shootingStar.draw();
+    });
+    
+    requestAnimationFrame(animate);
+  }
+  
+  // Handle resize
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+  
+  animate();
+})();
+
 // Theme toggle with localStorage
 const root = document.documentElement;
 const themeToggle = document.getElementById('themeToggle');

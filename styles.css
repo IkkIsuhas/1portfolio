@@ -1,3 +1,15 @@
+/* Galaxy Canvas */
+#galaxyCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -100;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #0a0e27 0%, #1a1a2e 50%, #16213e 100%);
+}
+
 /* Vite-like global background layers */
 .bg-grid,
 .bg-conic,
