@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio | Suhas</title>
+  <meta name="description" content="Suhas - Personal Portfolio" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicon@2.15.1/devicon.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          colors: {
+            primary: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81'
+            }
+          }
+        }
+      },
+      darkMode: 'class'
+    }
+  </script>
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Typed.js and AOS -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <!-- tsParticles for particle background -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
+  <!-- PDF.js removed: using direct OneDrive links instead -->
+</head>
+<body class="bg-white text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans">
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="fixed inset-0 z-[9999] bg-white dark:bg-slate-950 flex items-center justify-center transition-opacity duration-500">
+    <div class="text-center">
+      <div class="inline-block w-16 h-16 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mb-4"></div>
+      <p class="text-lg font-semibold text-slate-700 dark:text-slate-300">Loading...</p>
+    </div>
+  </div>
+
+  <!-- Scroll Progress Bar -->
+  <div id="scrollProgress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-primary-600 via-purple-600 to-primary-600 z-50 transition-all duration-300" style="width: 0%"></div>
+
+  <!-- Background layers -->
+  <canvas id="galaxyCanvas" aria-hidden="true"></canvas>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-noise" aria-hidden="true"></div>
+  <!-- Navbar -->
+  <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-slate-900/70 border-b border-slate-200/70 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+      <a href="#home" class="flex items-center gap-2 font-bold text-lg">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded bg-primary-600 text-white">S</span>
+        <span>Suhas</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+        <a href="#about" class="hover:text-primary-600">About</a>
+        <a href="#skills" class="hover:text-primary-600">Skills</a>
+        <a href="#projects" class="hover:text-primary-600">Projects</a>
+        <a href="#certificates" class="hover:text-primary-600">Certificates</a>
+        <a href="#contact" class="hover:text-primary-600">Contact</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a href="https://1drv.ms/b/c/d2e23b07d2baf1f8/EYgUkz04QeFFruWRsetqzZcBAQnvhbcOxvEHoTLsYCc-jw?e=9ohvGj" class="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-primary-600 text-white hover:bg-primary-700 text-sm font-medium">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M12 16.5l4-4h-3V3h-2v9.5H8l4 4z"/><path d="M5 19h14v2H5z"/></svg>
+          Download Resume
+        </a>
+        <a href="https://www.linkedin.com/in/suhas-dev/" target="_blank" rel="noreferrer" title="LinkedIn" aria-label="LinkedIn" class="social-icon p-2 rounded-md border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M4.983 3.5C4.983 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.483 1.12 2.483 2.5zM.5 8h4V23h-4V8zM8.5 8h3.839v2.041h.055c.535-1.013 1.843-2.083 3.794-2.083 4.06 0 4.807 2.673 4.807 6.151V23h-4v-6.5c0-1.55-.028-3.543-2.159-3.543-2.16 0-2.49 1.687-2.49 3.43V23h-4V8z"/></svg>
+        </a>
+        <a href="https://github.com/IkkIsuhas" target="_blank" rel="noreferrer" title="GitHub" aria-label="GitHub" class="social-icon p-2 rounded-md border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.59 2 12.253c0 4.52 2.865 8.35 6.839 9.705.5.095.682-.22.682-.49 0-.242-.009-.884-.014-1.735-2.782.616-3.369-1.37-3.369-1.37-.455-1.174-1.11-1.487-1.11-1.487-.908-.635.069-.622.069-.622 1.004.072 1.532 1.05 1.532 1.05.893 1.565 2.341 1.113 2.91.852.091-.663.35-1.113.636-1.37-2.22-.258-4.555-1.14-4.555-5.073 0-1.12.389-2.034 1.027-2.751-.103-.259-.446-1.3.098-2.71 0 0 .84-.273 2.75 1.05A9.38 9.38 0 0 1 12 7.5c.851.004 1.707.116 2.507.34 1.909-1.323 2.748-1.05 2.748-1.05.546 1.41.202 2.451.1 2.71.64.717 1.026 1.631 1.026 2.75 0 3.943-2.338 4.812-4.566 5.066.359.32.679.95.679 1.915 0 1.381-.013 2.495-.013 2.833 0 .272.18.588.688.488A10.02 10.02 0 0 0 22 12.253C22 6.59 17.523 2 12 2z" clip-rule="evenodd"/></svg>
+        </a>
+        <a href="mailto:suhasm004@gmail.com" title="Email" aria-label="Email" class="social-icon p-2 rounded-md border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5L4 8V6l8 5 8-5v2z"/></svg>
+        </a>
+        <button id="menuBtn" class="md:hidden p-2 rounded-md border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800" aria-expanded="false" aria-controls="mobileNav" title="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M4 6h16v2H4zM4 11h16v2H4zM4 16h16v2H4z"/></svg>
+        </button>
+        <button id="themeToggle" class="p-2 rounded-md border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800" title="Toggle theme">
+          <svg id="sun" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden dark:block" viewBox="0 0 20 20" fill="currentColor"><path d="M10 4.5a1 1 0 011 1V7a1 1 0 11-2 0V5.5a1 1 0 011-1zM10 13a3 3 0 100-6 3 3 0 000 6zM4.22 5.64a1 1 0 011.42 0l1.06 1.06a1 1 0 11-1.42 1.42L4.22 7.06a1 1 0 010-1.42zM3.5 10a1 1 0 011-1H7a1 1 0 110 2H4.5a1 1 0 01-1-1zm10.22-4.36a1 1 0 010 1.42L12.66 8.12a1 1 0 11-1.42-1.42l1.06-1.06a1 1 0 011.42 0zM13 10a1 1 0 011-1h2.5a1 1 0 110 2H14a1 1 0 01-1-1zm-7.72 4.36a1 1 0 010-1.42l1.06-1.06a1 1 0 111.42 1.42L6.7 14.78a1 1 0 01-1.42 0zM10 13a1 1 0 011 1v1.5a1 1 0 11-2 0V14a1 1 0 011-1z"/></svg>
+          <svg id="moon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 dark:hidden" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293a8 8 0 11-10.586-10.586A8 8 0 0017.293 13.293z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileNav" class="md:hidden hidden border-t border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 backdrop-blur transition-all duration-200 opacity-0 -translate-y-2">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col gap-3 text-sm font-medium">
+        <a href="#about" class="py-1">About</a>
+        <a href="#skills" class="py-1">Skills</a>
+        <a href="#projects" class="py-1">Projects</a>
+        <a href="#certificates" class="py-1">Certificates</a>
+        <a href="#contact" class="py-1">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="relative overflow-hidden min-h-screen flex items-center">
+    <!-- Animated gradient and particles background layers -->
+    <div class="absolute inset-0 -z-20 animated-gradient pointer-events-none"></div>
+    <div id="tsparticles" class="absolute inset-0 -z-10 pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32 w-full">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <span data-aos="fade-up" data-aos-delay="0" class="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-primary-500 to-purple-500 text-white text-xs font-semibold reveal opacity-0 translate-y-3 shadow-lg shadow-primary-500/30">✨ Open to opportunities</span>
+          <h1 class="mt-6 text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight reveal opacity-0 translate-y-3">
+            <span id="typedTitle">Hi, I'm <span class="bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent">Suhas</span></span>
+          </h1>
+          <p data-aos="fade-up" data-aos-delay="120" class="mt-6 text-xl text-slate-600 dark:text-slate-300 reveal opacity-0 translate-y-3 max-w-2xl leading-relaxed">AI Engineer in the Making,
+            Building Intelligent APIs with FastAPI & LLMs.</p>
+          <div data-aos="fade-up" data-aos-delay="200" class="mt-8 flex items-center gap-4 reveal opacity-0 translate-y-3">
+            <a href="#projects" class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-gradient-to-r from-primary-600 to-purple-600 text-white hover:from-primary-700 hover:to-purple-700 font-semibold transition-all duration-200 will-change-transform hover:-translate-y-0.5 shadow-lg shadow-primary-500/30">View Projects</a>
+            <a href="https://1drv.ms/b/c/d2e23b07d2baf1f8/EYgUkz04QeFFruWRsetqzZcBAQnvhbcOxvEHoTLsYCc-jw?e=9ohvGj" class="inline-flex items-center justify-center px-6 py-3 rounded-lg border-2 border-slate-300 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-500 hover:bg-slate-50 dark:hover:bg-slate-800 font-semibold transition-all">Download Resume</a>
+          </div>
+        </div>
+        <div id="heroPhotoWrap" class="relative" data-aos="zoom-in" data-aos-delay="160">
+          <div id="heroGlow" class="absolute -inset-10 -z-10 bg-gradient-to-tr from-primary-600/10 via-transparent to-transparent rounded-full blur-2xl" data-parallax="0.15"></div>
+          <!-- SVG blob behind photo -->
+          <svg class="absolute -z-10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 opacity-60 blur-md blob-rotate" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <filter id="blobNoise">
+                <feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="2" seed="2"/>
+                <feDisplacementMap in="SourceGraphic" scale="12"/>
+              </filter>
+            </defs>
+            <path filter="url(#blobNoise)" fill="#6366f1" d="M39.9,-59.8C53.3,-53.4,66.1,-44.7,70.2,-32.9C74.2,-21,69.4,-6,65.9,8.3C62.4,22.6,60.2,36.2,52.3,46.4C44.4,56.6,30.9,63.4,17.1,67.3C3.3,71.2,-10.7,72.1,-23.9,68.2C-37.1,64.4,-49.4,55.8,-58.1,44.3C-66.8,32.8,-71.9,18.4,-71.7,4.1C-71.4,-10.2,-65.7,-24.4,-56.9,-35.1C-48.1,-45.7,-36.3,-52.7,-24.2,-60C-12.1,-67.3,0.3,-74.9,11.2,-73.7C22.1,-72.5,31.5,-62.6,39.9,-59.8Z" transform="translate(100 100)"/>
+          </svg>
+          <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 p-4 aspect-square w-40 sm:w-48 md:w-56 mx-auto flex items-center justify-center overflow-hidden animate-float-slow will-change-transform">
+            <div class="text-center">
+              <div class="text-7xl select-none">👨‍💻</div>
+              <div class="mt-3 text-sm text-slate-500 dark:text-slate-400">Add your photo later</div>
+            </div>
+          </div>
+          <!-- Floating tech icons -->
+          <div class="pointer-events-none select-none" aria-hidden="true">
+            <span class="floating-icon absolute -left-6 top-4 text-2xl">🧠</span>
+            <span class="floating-icon absolute -right-6 bottom-6 text-2xl">⚙️</span>
+            <span class="floating-icon absolute left-8 -bottom-3 text-2xl">📊</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Divider -->
+  <div class="relative py-12">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full border-t-2 border-gradient-to-r from-transparent via-primary-500/20 to-transparent"></div>
+    </div>
+    <div class="relative flex justify-center">
+      <span class="bg-white dark:bg-slate-950 px-6 text-sm text-slate-500">●●●</span>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section id="about" class="py-24 sm:py-32">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-4">Get to know me</span>
+        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">About Me</h2>
+      </div>
+      <div class="mt-8 relative">
+        <!-- Subtle gradient band behind card -->
+        <div class="pointer-events-none absolute inset-x-0 -top-4 sm:-top-6 h-28 sm:h-32 rounded-2xl bg-gradient-to-r from-primary-50 via-transparent to-primary-50 dark:from-slate-800/40 dark:via-transparent dark:to-slate-800/40 blur-md -z-10"></div>
+
+        <div class="p-8 sm:p-12 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-xl hover:shadow-2xl transition-all reveal opacity-0 translate-y-3 border-l-4 border-primary-500 dark:border-primary-600 hover:border-l-8">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-gradient-to-r from-primary-50 to-purple-50 dark:from-primary-900/30 dark:to-purple-900/30 text-primary-700 dark:text-primary-400 border border-primary-200 dark:border-primary-800">👋 About me</div>
+          <p class="mt-6 text-lg text-slate-600 dark:text-slate-300 leading-relaxed">I design and develop AI-powered backend systems using FastAPI, LangChain, and RAG turning data into intelligent, scalable applications.</p>
+          <p class="mt-4 text-lg text-slate-600 dark:text-slate-300 leading-relaxed">I enjoy transforming data and ideas into meaningful, scalable solutions.</p>
+          <p class="mt-4 text-lg text-slate-600 dark:text-slate-300 leading-relaxed">For me, learning never stops, every challenge is a chance to grow, create, and innovate.</p>
+          <p class="mt-4 text-sm text-primary-700 dark:text-primary-400"><span id="typedTagline" class="font-medium"></span><span class="text-primary-400">|</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Divider -->
+  <div class="relative py-12">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full border-t-2 border-gradient-to-r from-transparent via-purple-500/20 to-transparent"></div>
+    </div>
+    <div class="relative flex justify-center">
+      <span class="bg-white dark:bg-slate-950 px-6 text-sm text-slate-500">●●●</span>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <section id="skills" class="py-24 sm:py-32 bg-gradient-to-b from-slate-50/50 to-white dark:from-slate-900/40 dark:to-slate-950">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-sm font-semibold mb-4">What I work with</span>
+        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">Skills & Technologies</h2>
+      </div>
+      <div class="mt-12 grid md:grid-cols-2 gap-6 lg:gap-8">
+        <div class="group skill-card tilt-card p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-primary-300 dark:hover:border-primary-700 transition-colors ripple-container">
+          <h3 class="text-xs font-semibold text-primary-700 dark:text-primary-400 uppercase tracking-wide mb-4">Programming</h3>
+          <div class="space-y-4">
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-python-plain colored text-xl"></i>
+                  <span class="text-sm font-medium">Python</span>
+                </div>
+                <span class="text-xs text-slate-500">90%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-primary-500 to-primary-600 rounded-full" data-progress="90" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-java-plain colored text-xl"></i>
+                  <span class="text-sm font-medium">Java</span>
+                </div>
+                <span class="text-xs text-slate-500">85%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-primary-500 to-primary-600 rounded-full" data-progress="85" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-javascript-plain colored text-xl"></i>
+                  <span class="text-sm font-medium">JavaScript</span>
+                </div>
+                <span class="text-xs text-slate-500">75%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-primary-500 to-primary-600 rounded-full" data-progress="75" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-mysql-plain colored text-xl"></i>
+                  <span class="text-sm font-medium">SQL</span>
+                </div>
+                <span class="text-xs text-slate-500">80%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-primary-500 to-primary-600 rounded-full" data-progress="80" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="group skill-card tilt-card p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-purple-300 dark:hover:border-purple-700 transition-colors ripple-container">
+          <h3 class="text-xs font-semibold text-purple-700 dark:text-purple-400 uppercase tracking-wide mb-4">Frameworks</h3>
+          <div class="space-y-4">
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-spring-plain colored text-xl"></i>
+                  <span class="text-sm font-medium">Spring Boot</span>
+                </div>
+                <span class="text-xs text-slate-500">85%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full" data-progress="85" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-hibernate-plain colored text-xl"></i>
+                  <span class="text-sm font-medium">Hibernate</span>
+                </div>
+                <span class="text-xs text-slate-500">80%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full" data-progress="80" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex w-5 h-5 items-center justify-center rounded bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-400 text-[10px] font-bold">JPA</span>
+                  <span class="text-sm font-medium">JPA</span>
+                </div>
+                <span class="text-xs text-slate-500">75%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full" data-progress="75" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="group skill-card tilt-card p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors ripple-container">
+          <h3 class="text-xs font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wide mb-4">Machine Learning</h3>
+          <div class="space-y-4">
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <span class="inline-flex w-5 h-5 items-center justify-center rounded bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-400 text-[10px] font-bold">SK</span>
+                  <span class="text-sm font-medium">scikit-learn</span>
+                </div>
+                <span class="text-xs text-slate-500">85%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full" data-progress="85" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-pytorch-original colored text-xl"></i>
+                  <span class="text-sm font-medium">PyTorch</span>
+                </div>
+                <span class="text-xs text-slate-500">80%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full" data-progress="80" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-pandas-original colored text-xl"></i>
+                  <span class="text-sm font-medium">pandas</span>
+                </div>
+                <span class="text-xs text-slate-500">90%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full" data-progress="90" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-numpy-original colored text-xl"></i>
+                  <span class="text-sm font-medium">NumPy</span>
+                </div>
+                <span class="text-xs text-slate-500">85%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full" data-progress="85" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="group skill-card tilt-card p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 hover:border-blue-300 dark:hover:border-blue-700 transition-colors ripple-container">
+          <h3 class="text-xs font-semibold text-blue-700 dark:text-blue-400 uppercase tracking-wide mb-4">Databases</h3>
+          <div class="space-y-4">
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-postgresql-plain colored text-xl"></i>
+                  <span class="text-sm font-medium">PostgreSQL</span>
+                </div>
+                <span class="text-xs text-slate-500">80%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full" data-progress="80" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-2">
+                  <i class="devicon-mysql-plain colored text-xl"></i>
+                  <span class="text-sm font-medium">MySQL</span>
+                </div>
+                <span class="text-xs text-slate-500">85%</span>
+              </div>
+              <div class="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div class="skill-progress h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full" data-progress="85" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="group skill-card tilt-card p-6 rounded-xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 md:col-span-2 hover:border-amber-300 dark:hover:border-amber-700 transition-colors">
+          <h3 class="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wide">Tools</h3>
+          <ul class="mt-3 grid sm:grid-cols-3 grid-cols-2 gap-3">
+            <li class="flex items-center gap-2"><i class="skill-icon devicon-git-plain colored text-xl"></i><span>Git</span></li>
+            <li class="flex items-center gap-2"><i class="skill-icon devicon-github-original colored text-xl"></i><span>GitHub</span></li>
+            <li class="flex items-center gap-2"><i class="skill-icon devicon-postman-plain colored text-xl"></i><span>Postman</span></li>
+            <li class="flex items-center gap-2"><i class="skill-icon devicon-vscode-plain colored text-xl"></i><span>VS Code</span></li>
+            <li class="flex items-center gap-2"><i class="skill-icon devicon-google-plain colored text-xl"></i><span>Google Colab</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Divider -->
+  <div class="relative py-12">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full border-t-2 border-gradient-to-r from-transparent via-primary-500/20 to-transparent"></div>
+    </div>
+    <div class="relative flex justify-center">
+      <span class="bg-white dark:bg-slate-950 px-6 text-sm text-slate-500">●●●</span>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <section id="projects" class="py-24 sm:py-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-4">My work</span>
+        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">Featured Projects</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Check out some of my recent work in Machine Learning and AI</p>
+      </div>
+      <div class="flex items-end justify-between gap-4 mt-2">
+        <div class="h-5"></div>
+        <div id="projectsSpinner" class="hidden items-center gap-2 text-sm text-slate-500">
+          <span class="inline-block w-4 h-4 rounded-full border-2 border-slate-300 border-t-primary-600 animate-spin"></span>
+          Loading…
+        </div>
+      </div>
+      <div id="projectsGrid" class="mt-12 grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+        <!-- Project 1: Animal Image Classification using ResNet -->
+        <article class="group relative overflow-hidden p-6 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-950 dark:to-slate-900 hover:shadow-2xl hover:border-primary-400 dark:hover:border-primary-600 transition-all duration-300 transform hover:-translate-y-2 reveal opacity-0 translate-y-3">
+          <div class="space-y-4">
+            <!-- Category Badge -->
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">Computer Vision</span>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400">Deep Learning</span>
+            </div>
+            
+            <!-- Title -->
+            <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+              Animal Image Classification using ResNet
+            </h3>
+            
+            <!-- Description Points -->
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <li class="flex items-start gap-2">
+                <span class="text-primary-500 mt-1">•</span>
+                <span>Built an image classification system to identify animal species from images</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary-500 mt-1">•</span>
+                <span>Used transfer learning with a pretrained ResNet-18 model fine-tuned on a custom dataset</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary-500 mt-1">•</span>
+                <span>Implemented image preprocessing, model training, inference, and confidence scoring</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-primary-500 mt-1">•</span>
+                <span>Deployed an interactive UI using Streamlit and containerized the app with Docker</span>
+              </li>
+            </ul>
+            
+            <!-- Tech Stack -->
+            <div class="pt-2">
+              <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">Tech Stack:</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">PyTorch</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">ResNet-18</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">torchvision</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">PIL</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">Streamlit</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">Docker</span>
+              </div>
+            </div>
+            
+            <!-- Links -->
+            <div class="flex items-center gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
+              <a href="https://github.com/IkkIsuhas/animal-image-classifier-model.git" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-medium hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.59 2 12.253c0 4.52 2.865 8.35 6.839 9.705.5.095.682-.22.682-.49 0-.242-.009-.884-.014-1.735-2.782.616-3.369-1.37-3.369-1.37-.455-1.174-1.11-1.487-1.11-1.487-.908-.635.069-.622.069-.622 1.004.072 1.532 1.05 1.532 1.05.893 1.565 2.341 1.113 2.91.852.091-.663.35-1.113.636-1.37-2.22-.258-4.555-1.14-4.555-5.073 0-1.12.389-2.034 1.027-2.751-.103-.259-.446-1.3.098-2.71 0 0 .84-.273 2.75 1.05A9.38 9.38 0 0 1 12 7.5c.851.004 1.707.116 2.507.34 1.909-1.323 2.748-1.05 2.748-1.05.546 1.41.202 2.451.1 2.71.64.717 1.026 1.631 1.026 2.75 0 3.943-2.338 4.812-4.566 5.066.359.32.679.95.679 1.915 0 1.381-.013 2.495-.013 2.833 0 .272.18.588.688.488A10.02 10.02 0 0 0 22 12.253C22 6.59 17.523 2 12 2z" clip-rule="evenodd"/></svg>
+                GitHub
+              </a>
+              <a href="https://hub.docker.com/r/suhas001/animal_classification" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/></svg>
+                Docker Image
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: Vehicle Price Prediction System -->
+        <article class="group relative overflow-hidden p-6 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-950 dark:to-slate-900 hover:shadow-2xl hover:border-emerald-400 dark:hover:border-emerald-600 transition-all duration-300 transform hover:-translate-y-2 reveal opacity-0 translate-y-3">
+          <div class="space-y-4">
+            <!-- Category Badge -->
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">Machine Learning</span>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">Regression</span>
+            </div>
+            
+            <!-- Title -->
+            <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+              Vehicle Price Prediction System
+            </h3>
+            
+            <!-- Description Points -->
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-500 mt-1">•</span>
+                <span>Developed a vehicle price prediction model using structured tabular data</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-500 mt-1">•</span>
+                <span>Built an end-to-end ML pipeline including preprocessing, feature engineering, and modeling</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-500 mt-1">•</span>
+                <span>Applied Random Forest Regression with hyperparameter tuning using RandomizedSearchCV</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-500 mt-1">•</span>
+                <span>Evaluated performance using MSE, MAE, and R², and deployed the model with Streamlit and Docker</span>
+              </li>
+            </ul>
+            
+            <!-- Tech Stack -->
+            <div class="pt-2">
+              <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">Tech Stack:</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">Python</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">scikit-learn</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">Pandas</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">Random Forest</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">Streamlit</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">Docker</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">Joblib</span>
+              </div>
+            </div>
+            
+            <!-- Links -->
+            <div class="flex items-center gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
+              <a href="https://github.com/IkkIsuhas/vehicle_price_predictor_model.git" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-medium hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.59 2 12.253c0 4.52 2.865 8.35 6.839 9.705.5.095.682-.22.682-.49 0-.242-.009-.884-.014-1.735-2.782.616-3.369-1.37-3.369-1.37-.455-1.174-1.11-1.487-1.11-1.487-.908-.635.069-.622.069-.622 1.004.072 1.532 1.05 1.532 1.05.893 1.565 2.341 1.113 2.91.852.091-.663.35-1.113.636-1.37-2.22-.258-4.555-1.14-4.555-5.073 0-1.12.389-2.034 1.027-2.751-.103-.259-.446-1.3.098-2.71 0 0 .84-.273 2.75 1.05A9.38 9.38 0 0 1 12 7.5c.851.004 1.707.116 2.507.34 1.909-1.323 2.748-1.05 2.748-1.05.546 1.41.202 2.451.1 2.71.64.717 1.026 1.631 1.026 2.75 0 3.943-2.338 4.812-4.566 5.066.359.32.679.95.679 1.915 0 1.381-.013 2.495-.013 2.833 0 .272.18.588.688.488A10.02 10.02 0 0 0 22 12.253C22 6.59 17.523 2 12 2z" clip-rule="evenodd"/></svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3: AI Notes Generator API -->
+        <article class="group relative overflow-hidden p-6 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white to-slate-50 dark:from-slate-950 dark:to-slate-900 hover:shadow-2xl hover:border-purple-400 dark:hover:border-purple-600 transition-all duration-300 transform hover:-translate-y-2 reveal opacity-0 translate-y-3">
+          <div class="space-y-4">
+            <!-- Category Badge -->
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400">Backend API</span>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400">LLM Integration</span>
+            </div>
+            
+            <!-- Title -->
+            <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+              AI Notes Generator API
+            </h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 italic">Backend API for generating structured AI notes from text, files, and PDFs using an LLM.</p>
+            
+            <!-- Description Points -->
+            <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <li class="flex items-start gap-2">
+                <span class="text-purple-500 mt-1">•</span>
+                <span>Built a FastAPI backend that generates AI-based notes from text prompts and uploaded files</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-500 mt-1">•</span>
+                <span>Integrated with OpenRouter for large language model inference asynchronously</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-500 mt-1">•</span>
+                <span>Handled file uploads (.txt + PDF), text extraction, and LLM summarization</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-500 mt-1">•</span>
+                <span>Stored prompts and generated notes in PostgreSQL using SQLModel ORM</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-500 mt-1">•</span>
+                <span>Deployed as a well-structured backend with clear API documentation</span>
+              </li>
+            </ul>
+            
+            <!-- Tech Stack -->
+            <div class="pt-2">
+              <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2">Tech Stack:</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">FastAPI</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">SQLModel</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">PostgreSQL</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">OpenRouter</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">httpx</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">pdfplumber</span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300">Python</span>
+              </div>
+            </div>
+            
+            <!-- Links -->
+            <div class="flex items-center gap-3 pt-2 border-t border-slate-200 dark:border-slate-800">
+              <a href="https://github.com/IkkIsuhas/file_api.git" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-medium hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.59 2 12.253c0 4.52 2.865 8.35 6.839 9.705.5.095.682-.22.682-.49 0-.242-.009-.884-.014-1.735-2.782.616-3.369-1.37-3.369-1.37-.455-1.174-1.11-1.487-1.11-1.487-.908-.635.069-.622.069-.622 1.004.072 1.532 1.05 1.532 1.05.893 1.565 2.341 1.113 2.91.852.091-.663.35-1.113.636-1.37-2.22-.258-4.555-1.14-4.555-5.073 0-1.12.389-2.034 1.027-2.751-.103-.259-.446-1.3.098-2.71 0 0 .84-.273 2.75 1.05A9.38 9.38 0 0 1 12 7.5c.851.004 1.707.116 2.507.34 1.909-1.323 2.748-1.05 2.748-1.05.546 1.41.202 2.451.1 2.71.64.717 1.026 1.631 1.026 2.75 0 3.943-2.338 4.812-4.566 5.066.359.32.679.95.679 1.915 0 1.381-.013 2.495-.013 2.833 0 .272.18.588.688.488A10.02 10.02 0 0 0 22 12.253C22 6.59 17.523 2 12 2z" clip-rule="evenodd"/></svg>
+                GitHub Repo
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Divider -->
+  <div class="relative py-12">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full border-t-2 border-gradient-to-r from-transparent via-emerald-500/20 to-transparent"></div>
+    </div>
+    <div class="relative flex justify-center">
+      <span class="bg-white dark:bg-slate-950 px-6 text-sm text-slate-500">●●●</span>
+    </div>
+  </div>
+
+  <!-- Certificates -->
+  <section id="certificates" class="py-24 sm:py-32 bg-gradient-to-b from-slate-50/50 to-white dark:from-slate-900/40 dark:to-slate-950">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-sm font-semibold mb-4">🏆 Achievements</span>
+        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">Certificates</h2>
+      </div>
+      <!-- Main Container Card -->
+      <div class="mt-12 p-8 sm:p-10 rounded-3xl border-2 border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white via-slate-50/50 to-white dark:from-slate-900 dark:via-slate-800/50 dark:to-slate-900 shadow-xl hover:shadow-2xl transition-all reveal opacity-0 translate-y-3">
+        <div class="grid md:grid-cols-3 gap-6">
+          <!-- Certificate 1: Machine Learning Intern - Unified Mentor -->
+          <div class="group relative overflow-hidden p-6 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 transition-all transform hover:-translate-y-1">
+            <div class="space-y-4">
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1">Machine Learning Intern</h3>
+                <p class="text-sm font-medium text-primary-600 dark:text-primary-400">Unified Mentor</p>
+              </div>
+              <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                <li class="flex items-start gap-2">
+                  <span class="text-primary-500 mt-1">•</span>
+                  <span>3-month internship with hands-on ML work</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-primary-500 mt-1">•</span>
+                  <span>Sep – Dec 2025</span>
+                </li>
+              </ul>
+              <div class="flex flex-col gap-2 pt-2">
+                <a href="https://1drv.ms/b/c/d2e23b07d2baf1f8/IQAuHF4FxqhNSZVpcnpZk-wuAZ29t1qGZ9e75Vfg_jCTrKY?e=GVqhox" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-primary-600 text-white text-sm font-medium hover:bg-primary-700 transition-colors shadow-md hover:shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3z"/><path d="M5 5h5V3H3v7h2V5zm0 14v-5H3v7h7v-2H5zm14 0h-5v2h7v-7h-2v5z"/></svg>
+                  View Certificate
+                </a>
+                <a href="https://1drv.ms/b/c/d2e23b07d2baf1f8/IQBkFi6vqxhCSoh0YxUyXVLRAc4Km9MwdrTL2OursY6_MyI?e=my3JSX" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 border-primary-600 text-primary-600 dark:text-primary-400 text-sm font-medium hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3z"/><path d="M5 5h5V3H3v7h2V5zm0 14v-5H3v7h7v-2H5zm14 0h-5v2h7v-7h-2v5z"/></svg>
+                  View Recommendation Letter
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certificate 2: Mini Internship Project - 360DigiTMG -->
+          <div class="group relative overflow-hidden p-6 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 hover:shadow-lg hover:border-emerald-300 dark:hover:border-emerald-700 transition-all transform hover:-translate-y-1">
+            <div class="space-y-4">
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1">Mini Internship Project</h3>
+                <p class="text-sm font-medium text-emerald-600 dark:text-emerald-400">360DigiTMG</p>
+              </div>
+              <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-500 mt-1">•</span>
+                  <span>Project-based internship experience</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-500 mt-1">•</span>
+                  <span>Mar – Apr 2025</span>
+                </li>
+              </ul>
+              <div class="flex flex-col gap-2 pt-2">
+                <a href="https://1drv.ms/b/c/d2e23b07d2baf1f8/IQAllr4eFJygQohzSVBAxW-ZAYpPsQI2xZojqSaRehGANiM?e=wUAcJr" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition-colors shadow-md hover:shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3z"/><path d="M5 5h5V3H3v7h2V5zm0 14v-5H3v7h7v-2H5zm14 0h-5v2h7v-7h-2v5z"/></svg>
+                  View Certificate
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certificate 3: Data Analytics Live Project - Trainity -->
+          <div class="group relative overflow-hidden p-6 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 hover:shadow-lg hover:border-purple-300 dark:hover:border-purple-700 transition-all transform hover:-translate-y-1">
+            <div class="space-y-4">
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1">Data Analytics Live Project</h3>
+                <p class="text-sm font-medium text-purple-600 dark:text-purple-400">Trainity</p>
+              </div>
+              <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                <li class="flex items-start gap-2">
+                  <span class="text-purple-500 mt-1">•</span>
+                  <span>Live project on real-world data</span>
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="text-purple-500 mt-1">•</span>
+                  <span>Aug 2025</span>
+                </li>
+              </ul>
+              <div class="flex flex-col gap-2 pt-2">
+                <a href="https://1drv.ms/b/c/d2e23b07d2baf1f8/IQB2KBCKzWGqSLPfXbF1-BmuAaas33-q5lgvGpduL4rfOVQ?e=unffnc" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-purple-600 text-white text-sm font-medium hover:bg-purple-700 transition-colors shadow-md hover:shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3z"/><path d="M5 5h5V3H3v7h2V5zm0 14v-5H3v7h7v-2H5zm14 0h-5v2h7v-7h-2v5z"/></svg>
+                  View Certificate
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Divider -->
+  <div class="relative py-12">
+    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full border-t-2 border-gradient-to-r from-transparent via-primary-500/20 to-transparent"></div>
+    </div>
+    <div class="relative flex justify-center">
+      <span class="bg-white dark:bg-slate-950 px-6 text-sm text-slate-500">●●●</span>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <section id="contact" class="py-24 sm:py-32">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-4">💬 Let's connect</span>
+        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">Contact</h2>
+        <p class="mt-4 text-lg text-slate-600 dark:text-slate-300">Interested in working together or have a question? Reach out and I'll get back to you.</p>
+      </div>
+      <div class="mt-8 flex flex-wrap justify-center items-center gap-4 text-sm">
+        <a href="mailto:suhasm004@gmail.com" class="social-icon inline-flex items-center gap-2 px-5 py-3 rounded-lg border-2 border-slate-300 dark:border-slate-700 hover:border-primary-500 dark:hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-slate-800 font-medium transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5L4 8V6l8 5 8-5v2z"/></svg>
+          Email
+        </a>
+        <a href="https://www.linkedin.com/in/suhas-dev/" target="_blank" rel="noreferrer" class="social-icon inline-flex items-center gap-2 px-5 py-3 rounded-lg border-2 border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-slate-800 font-medium transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path d="M4.983 3.5C4.983 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.483 1.12 2.483 2.5zM.5 8h4V23h-4V8zM8.5 8h3.839v2.041h.055c.535-1.013 1.843-2.083 3.794-2.083 4.06 0 4.807 2.673 4.807 6.151V23h-4v-6.5c0-1.55-.028-3.543-2.159-3.543-2.16 0-2.49 1.687-2.49 3.43V23h-4V8z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/IkkIsuhas" target="_blank" rel="noreferrer" class="social-icon inline-flex items-center gap-2 px-5 py-3 rounded-lg border-2 border-slate-300 dark:border-slate-700 hover:border-slate-800 dark:hover:border-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.59 2 12.253c0 4.52 2.865 8.35 6.839 9.705.5.095.682-.22.682-.49 0-.242-.009-.884-.014-1.735-2.782.616-3.369-1.37-3.369-1.37-.455-1.174-1.11-1.487-1.11-1.487-.908-.635.069-.622.069-.622 1.004.072 1.532 1.05 1.532 1.05.893 1.565 2.341 1.113 2.91.852.091-.663.35-1.113.636-1.37-2.22-.258-4.555-1.14-4.555-5.073 0-1.12.389-2.034 1.027-2.751-.103-.259-.446-1.3.098-2.71 0 0 .84-.273 2.75 1.05A9.38 9.38 0 0 1 12 7.5c.851.004 1.707.116 2.507.34 1.909-1.323 2.748-1.05 2.748-1.05.546 1.41.202 2.451.1 2.71.64.717 1.026 1.631 1.026 2.75 0 3.943-2.338 4.812-4.566 5.066.359.32.679.95.679 1.915 0 1.381-.013 2.495-.013 2.833 0 .272.18.588.688.488A10.02 10.02 0 0 0 22 12.253C22 6.59 17.523 2 12 2z" clip-rule="evenodd"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Get in touch -->
+  <section id="get-in-touch" class="py-24 sm:py-32 bg-gradient-to-b from-slate-50/50 to-white dark:from-slate-900/40 dark:to-slate-950">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8">
+        <span class="inline-block px-4 py-1.5 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 text-sm font-semibold mb-4">✉️ Send a message</span>
+        <h2 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">Get in touch</h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300">Send me a message and I'll reply soon.</p>
+      </div>
+      <form id="contactForm" class="mt-8 grid gap-4">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="nameInput" class="block text-sm font-medium mb-1">Name</label>
+            <input id="nameInput" name="name" type="text" required class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 outline-none focus:ring-2 focus:ring-primary-500" placeholder="Your name" />
+          </div>
+          <div>
+            <label for="emailInput" class="block text-sm font-medium mb-1">Email</label>
+            <input id="emailInput" name="email" type="email" required class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 outline-none focus:ring-2 focus:ring-primary-500" placeholder="you@example.com" />
+          </div>
+        </div>
+        <div>
+          <label for="subjectInput" class="block text-sm font-medium mb-1">Subject</label>
+          <input id="subjectInput" name="subject" type="text" required class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 outline-none focus:ring-2 focus:ring-primary-500" placeholder="Subject" />
+        </div>
+        <div>
+          <label for="messageInput" class="block text-sm font-medium mb-1">Message</label>
+          <textarea id="messageInput" name="message" rows="6" required class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-3 py-2 outline-none focus:ring-2 focus:ring-primary-500" placeholder="Write your message..."></textarea>
+        </div>
+        <div class="flex items-center justify-between">
+          <p class="text-xs text-slate-500">This will open your email app to send the message.</p>
+          <button id="sendBtn" type="submit" class="group inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary-600 text-white hover:bg-primary-700 font-medium transition transform will-change-transform">
+            <svg class="w-5 h-5 transition-transform group-hover:-translate-y-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2 3l20 9-20 9 5-9-5-9zm7.5 9l-2.5 4.5L19 12 7 7.5 9.5 12z"/></svg>
+            <span>Send</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="py-12 border-t-2 border-slate-200 dark:border-slate-800 bg-gradient-to-b from-white to-slate-50 dark:from-slate-950 dark:to-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="text-center md:text-left">
+          <p class="text-lg font-bold text-slate-800 dark:text-slate-100">Suhas</p>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">ML/AI Developer | Java Spring Boot Enthusiast</p>
+        </div>
+        
+        <div class="flex items-center gap-4">
+          <a href="https://www.linkedin.com/in/suhas-dev/" target="_blank" rel="noreferrer" class="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors" title="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M4.983 3.5C4.983 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.483 1.12 2.483 2.5zM.5 8h4V23h-4V8zM8.5 8h3.839v2.041h.055c.535-1.013 1.843-2.083 3.794-2.083 4.06 0 4.807 2.673 4.807 6.151V23h-4v-6.5c0-1.55-.028-3.543-2.159-3.543-2.16 0-2.49 1.687-2.49 3.43V23h-4V8z"/></svg>
+          </a>
+          <a href="https://github.com/IkkIsuhas" target="_blank" rel="noreferrer" class="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors" title="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.59 2 12.253c0 4.52 2.865 8.35 6.839 9.705.5.095.682-.22.682-.49 0-.242-.009-.884-.014-1.735-2.782.616-3.369-1.37-3.369-1.37-.455-1.174-1.11-1.487-1.11-1.487-.908-.635.069-.622.069-.622 1.004.072 1.532 1.05 1.532 1.05.893 1.565 2.341 1.113 2.91.852.091-.663.35-1.113.636-1.37-2.22-.258-4.555-1.14-4.555-5.073 0-1.12.389-2.034 1.027-2.751-.103-.259-.446-1.3.098-2.71 0 0 .84-.273 2.75 1.05A9.38 9.38 0 0 1 12 7.5c.851.004 1.707.116 2.507.34 1.909-1.323 2.748-1.05 2.748-1.05.546 1.41.202 2.451.1 2.71.64.717 1.026 1.631 1.026 2.75 0 3.943-2.338 4.812-4.566 5.066.359.32.679.95.679 1.915 0 1.381-.013 2.495-.013 2.833 0 .272.18.588.688.488A10.02 10.02 0 0 0 22 12.253C22 6.59 17.523 2 12 2z" clip-rule="evenodd"/></svg>
+          </a>
+          <a href="mailto:suhasm004@gmail.com" class="text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors" title="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5L4 8V6l8 5 8-5v2z"/></svg>
+          </a>
+        </div>
+        
+        <button id="backToTop" class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium transition-colors flex items-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+            <path d="M12 4l-8 8h5v8h6v-8h5z"/>
+          </svg>
+          Back to Top
+        </button>
+      </div>
+      
+      <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500">
+        <p>© <span id="year"></span> Suhas. All rights reserved. Built with passion and code ❤️</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button id="scrollToTopBtn" class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-primary-600 to-purple-600 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 flex items-center justify-center opacity-0 pointer-events-none z-40" aria-label="Scroll to top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+      <path d="M12 4l-8 8h5v8h6v-8h5z"/>
+    </svg>
+  </button>
+
+  <script src="./script.js"></script>
+</body>
+</html>
+  
+  
